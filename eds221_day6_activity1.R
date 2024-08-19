@@ -94,3 +94,29 @@ wb_co2_tons <- wb_data_tidy %>%
 co2_total <- wb_data_tidy %>%
   group_by(country) %>%
   summarize(total_co2_kt = sum(co2_emissions_kt, na.rm = TRUE))
+
+
+## filter tidy data with just US and Mexico
+
+#using %in% will look for countries "in" this vector
+
+us_ca_data <- wb_data_tidy %>%
+  filter(country %in% c("United States", "Canada"))
+
+# filtering is really good at looking at specific values for variables (columns)
+data_2020 <- wb_data_tidy %>%
+  filter(year == 2020)
+
+### Mutate() is adding a new column using existing data,
+
+### Group_by() and summarize() collapses data
+
+## Group_by puts all data into that one row. So
+
+co2_annual <- wb_data_tidy %>%
+  group_by(year) %>%
+  summarize(annual_total_co2_kt = sum(co2_emissions_kt, na.rm = TRUE))
+
+ggplot(data = co2_annual, aes(x = year, y = annual_total_co2_kt)) +
+  geom_line()
+
